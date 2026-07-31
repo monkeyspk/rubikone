@@ -1,10 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ArrowLeft, X, ChevronDown } from "lucide-react";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { appleTransition } from "@/lib/animations";
 import { useScrollLock } from "@/hooks/useScrollLock";
 import { ComparisonSection } from "@/components/sections/comparison-table";
@@ -20,22 +19,9 @@ import {
   KONZEPT_CTA,
 } from "@/lib/constants";
 
-// Alle Posten-Schilder aus Köniz
-const POSTEN_SCHILDER = [
-  { nummer: "01", image: "/images/posten/schild-01.jpg" },
-  { nummer: "02", image: "/images/posten/schild-02.jpg" },
-  { nummer: "03", image: "/images/posten/schild-03.jpg" },
-  { nummer: "04", image: "/images/posten/schild-04.jpg" },
-  { nummer: "05", image: "/images/posten/schild-05.jpg" },
-  { nummer: "06", image: "/images/posten/schild-06.jpg" },
-  { nummer: "07", image: "/images/posten/schild-07.jpg" },
-  { nummer: "08", image: "/images/posten/schild-08.jpg" },
-  { nummer: "09", image: "/images/posten/schild-09.jpg" },
-];
-
 export default function KonzeptPage() {
-  const postenScrollRef = useRef<HTMLDivElement>(null);
   const [activeModal, setActiveModal] = useState<string | null>(null);
+  const [postenActiveIndex, setPostenActiveIndex] = useState(0);
 
   const hero = useContent("KONZEPT_HERO", KONZEPT_HERO) as any;
   const postenSlider = useContent("KONZEPT_POSTEN_SLIDER", KONZEPT_POSTEN_SLIDER) as any;
@@ -52,10 +38,6 @@ export default function KonzeptPage() {
   const ldTaglineEdit = useEditPath("KONZEPT_LERNDIMENSIONEN.tagline");
   const ldHeadlineEdit = useEditPath("KONZEPT_LERNDIMENSIONEN.headline");
   const ldDescEdit = useEditPath("KONZEPT_LERNDIMENSIONEN.description");
-  const ctaHeadlineEdit = useEditPath("KONZEPT_CTA.headline");
-  const ctaDescEdit = useEditPath("KONZEPT_CTA.description");
-  const ctaPrimaryEdit = useEditPath("KONZEPT_CTA.ctaPrimary");
-  const ctaSecondaryEdit = useEditPath("KONZEPT_CTA.ctaSecondary");
 
   // Lerndimensionen from content with icon paths
   const LERNDIMENSIONEN = (lerndimensionen.dimensions as any[]).map((d: any) => ({
@@ -63,15 +45,10 @@ export default function KonzeptPage() {
     icon: `/images/lerndimensionen/${d.id}.jpg`,
   }));
 
-  const scrollPosten = (direction: "left" | "right") => {
-    if (postenScrollRef.current) {
-      const scrollAmount = 400;
-      postenScrollRef.current.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth",
-      });
-    }
-  };
+  const examples = (lerndimensionen.examples as Array<{ src: string; alt?: string; _id?: string }>) ?? [];
+
+  const postenSlides = (postenSlider.slides as any[]) ?? [];
+  const postenSlide = postenSlides[postenActiveIndex];
 
   const activeDimension = LERNDIMENSIONEN.find((d: any) => d.id === activeModal);
 
@@ -195,7 +172,7 @@ export default function KonzeptPage() {
         <PerspektiveSection />
       </EditableSection>
 
-      {/* 3. Die 5 Lerndimensionen mit Modals */}
+      {/* 3. Die 5 Lerndimensionen mit Modals + 3b. Beispielbilder (eigene Section) */}
       <EditableSection contentKey="KONZEPT_LERNDIMENSIONEN" label="Lerndimensionen">
       <section className="py-16 lg:py-24 bg-white">
         <div className="container-content">
@@ -250,56 +227,60 @@ export default function KonzeptPage() {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
 
-          {/* 4 Beispielbilder unter den Dimensionen */}
-          {lerndimensionen.examples && lerndimensionen.examples.length > 0 && (
-            <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
-              {(lerndimensionen.examples as Array<{ src: string; alt?: string; _id?: string }>).map(
-                (ex, i: number) => (
-                  <motion.div
-                    key={ex._id ?? i}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ ...appleTransition, delay: 0.1 + i * 0.05 }}
-                    className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-apple"
-                    data-edit-path={`KONZEPT_LERNDIMENSIONEN.examples.${i}`}
-                  >
-                    <Image
-                      src={ex.src}
-                      alt={ex.alt || `Lerndimension Beispiel ${i + 1}`}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 50vw, 25vw"
-                    />
-                  </motion.div>
-                )
-              )}
-            </div>
-          )}
-
+      {/* 3b. Beispielbilder: gleiche Lerndimensionen, andere Perspektive */}
+      <section className="pb-16 lg:pb-24 bg-white">
+        <div className="container-content">
           {lerndimensionen.examplesCaption && (
             <p
-              className="mt-6 text-body-lg text-[var(--color-apple-gray-600)] max-w-3xl"
+              className="text-body-lg text-[var(--color-apple-gray-600)] max-w-3xl mb-10"
               data-edit-path="KONZEPT_LERNDIMENSIONEN.examplesCaption"
             >
-              {lerndimensionen.examplesCaption}
+              {lerndimensionen.examplesCaption.split("\n").map((line: string, i: number, arr: string[]) => (
+                <span key={i}>{line}{i < arr.length - 1 && <br />}</span>
+              ))}
             </p>
+          )}
+
+          {examples.length > 0 && (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
+              {examples.map((ex, i: number) => (
+                <motion.div
+                  key={ex._id ?? i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ ...appleTransition, delay: 0.1 + i * 0.05 }}
+                  className="relative h-64 lg:h-80 rounded-2xl overflow-hidden bg-[var(--color-apple-gray-100)]"
+                  data-edit-path={`KONZEPT_LERNDIMENSIONEN.examples.${i}`}
+                >
+                  <Image
+                    src={ex.src}
+                    alt={ex.alt || `Lerndimension Beispiel ${i + 1}`}
+                    fill
+                    className="object-contain"
+                    sizes="(max-width: 768px) 50vw, 25vw"
+                  />
+                </motion.div>
+              ))}
+            </div>
           )}
         </div>
       </section>
       </EditableSection>
 
-      {/* 4. Beispiel-Posten - Slider */}
+      {/* 4. Beispiel-Posten - Perspektiven-Slider */}
       <EditableSection contentKey="KONZEPT_POSTEN_SLIDER" label="Posten-Slider">
-      <section className="py-16 lg:py-24 bg-[var(--color-apple-gray-100)] overflow-hidden">
-        {/* Header */}
-        <div className="container-content mb-12">
+      <section className="py-16 lg:py-24 bg-[var(--color-apple-gray-100)]">
+        <div className="container-content">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={appleTransition}
+            className="max-w-3xl mb-12"
           >
             <p className="text-body-sm text-[var(--color-apple-gray-600)] mb-2" {...psTaglineEdit}>
               {postenSlider.tagline}
@@ -311,56 +292,87 @@ export default function KonzeptPage() {
               {postenSlider.description}
             </p>
           </motion.div>
-        </div>
 
-        {/* Slider */}
-        <div
-          ref={postenScrollRef}
-          className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-        >
-          <div className="slider-spacer" />
+          {postenSlide && (
+            <div className="relative">
+              {/* Two-column: portrait image left, text right */}
+              <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] gap-10 lg:gap-16 items-center">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={`posten-img-${postenActiveIndex}`}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.35 }}
+                    className="relative aspect-[3/4] max-w-[460px] mx-auto lg:mx-0 w-full rounded-2xl overflow-hidden shadow-apple bg-white"
+                    data-edit-path={`KONZEPT_POSTEN_SLIDER.slides.${postenActiveIndex}.image`}
+                  >
+                    <Image
+                      src={postenSlide.image}
+                      alt={postenSlide.imageAlt || `Perspektive ${postenActiveIndex + 1}`}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 1024px) 100vw, 460px"
+                    />
+                  </motion.div>
+                </AnimatePresence>
 
-          {POSTEN_SCHILDER.map((posten, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ ...appleTransition, delay: index * 0.05 }}
-              className="flex-shrink-0"
-            >
-              <div className="relative w-[260px] lg:w-[300px] rounded-2xl overflow-hidden shadow-apple">
-                <Image
-                  src={posten.image}
-                  alt={`Posten ${posten.nummer}`}
-                  width={300}
-                  height={450}
-                  className="w-full h-auto"
-                />
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={`posten-txt-${postenActiveIndex}`}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.35 }}
+                    className="text-body-lg text-[var(--color-apple-gray-700)] leading-relaxed [&_p+ul]:mt-2 [&_strong]:font-semibold [&_strong]:text-[var(--color-apple-dark)]"
+                    data-edit-path={`KONZEPT_POSTEN_SLIDER.slides.${postenActiveIndex}.body`}
+                    dangerouslySetInnerHTML={{ __html: postenSlide.body }}
+                  />
+                </AnimatePresence>
               </div>
-            </motion.div>
-          ))}
 
-          <div className="slider-spacer" />
-        </div>
+              {/* Navigation: Begriffe statt Punkte */}
+              {postenSlides.length > 1 && (
+                <div className="mt-10 flex items-center justify-center gap-6">
+                  <button
+                    onClick={() =>
+                      setPostenActiveIndex((i) => (i - 1 + postenSlides.length) % postenSlides.length)
+                    }
+                    aria-label="Vorherige Perspektive"
+                    className="w-11 h-11 flex-shrink-0 rounded-full bg-white shadow-apple flex items-center justify-center hover:bg-[var(--color-apple-gray-200)] transition-colors"
+                  >
+                    <ArrowLeft className="h-5 w-5 text-[var(--color-apple-dark)]" />
+                  </button>
 
-        {/* Navigation */}
-        <div className="container-content mt-6">
-          <div className="flex justify-end gap-4">
-            <button
-              onClick={() => scrollPosten("left")}
-              className="hover:text-[var(--color-apple-blue)] transition-colors"
-            >
-              <ArrowLeft className="h-6 w-6 text-[var(--color-apple-gray-500)]" />
-            </button>
-            <button
-              onClick={() => scrollPosten("right")}
-              className="hover:text-[var(--color-apple-blue)] transition-colors"
-            >
-              <ArrowRight className="h-6 w-6 text-[var(--color-apple-gray-500)]" />
-            </button>
-          </div>
+                  <div className="flex items-center gap-4 lg:gap-6 flex-wrap justify-center">
+                    {postenSlides.map((slide: any, i: number) => (
+                      <button
+                        key={slide._id ?? i}
+                        onClick={() => setPostenActiveIndex(i)}
+                        className={`text-body font-medium transition-opacity ${
+                          slide.label === "Neutral" ? "text-[var(--color-apple-blue)]" : "text-accent-orange"
+                        } ${
+                          i === postenActiveIndex
+                            ? "opacity-100 underline underline-offset-4"
+                            : "opacity-50 hover:opacity-80"
+                        }`}
+                      >
+                        {slide.label}
+                      </button>
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={() => setPostenActiveIndex((i) => (i + 1) % postenSlides.length)}
+                    aria-label="Nächste Perspektive"
+                    className="w-11 h-11 flex-shrink-0 rounded-full bg-white shadow-apple flex items-center justify-center hover:bg-[var(--color-apple-gray-200)] transition-colors"
+                  >
+                    <ArrowRight className="h-5 w-5 text-[var(--color-apple-dark)]" />
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </section>
       </EditableSection>
@@ -375,34 +387,19 @@ export default function KonzeptPage() {
         <ComparisonSection />
       </EditableSection>
 
-      {/* 7. CTA */}
+      {/* 7. CTA - reines Hintergrundfoto */}
       <EditableSection contentKey="KONZEPT_CTA" label="Call-to-Action">
-      <section className="py-16 lg:py-24 bg-[var(--color-apple-blue)]">
-        <div className="container-content text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={appleTransition}
-          >
-            <h2 className="text-title-1 text-white" {...ctaHeadlineEdit}>
-              {cta.headline}
-            </h2>
-            <p className="mt-4 text-body-lg text-white/80 max-w-2xl mx-auto" {...ctaDescEdit}>
-              {cta.description}
-            </p>
-            <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link href={cta.ctaPrimary.href} className="btn-primary bg-white text-[var(--color-apple-blue)] hover:bg-white/90" {...ctaPrimaryEdit}>
-                {cta.ctaPrimary.label}
-              </Link>
-              <Link href={cta.ctaSecondary.href} className="btn-secondary text-white hover:text-white/80" {...ctaSecondaryEdit}>
-                {cta.ctaSecondary.label}
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+        <section
+          className="relative h-[50vh] md:h-[60vh] overflow-hidden"
+          data-edit-path="KONZEPT_CTA.backgroundImage"
+        >
+          <Image
+            src={cta.backgroundImage}
+            alt={cta.imageAlt || "RubikONE"}
+            fill
+            className="object-cover"
+          />
+        </section>
       </EditableSection>
 
       {/* Modal für Lerndimensionen */}

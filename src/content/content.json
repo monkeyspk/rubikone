@@ -202,33 +202,27 @@
     "subheadline": "Eine neue Art, Bewegung in den öffentlichen Raum zu bringen.",
     "features": [
       {
-        "label": "Keine neue Fläche nötig",
-        "description": "RubikONE nutzt bestehende Infrastruktur – Treppen, Mauern, Geländer werden zu Bewegungsposten.",
+        "label": "Vielfältiges Training inspiriert von Parkour",
         "_id": "3sjK_Bh7Ao"
       },
       {
-        "label": "Minimaler baulicher Eingriff",
-        "description": "Kein Tiefbau, nur kleine Fundamente für die Schilder. Denkmalschutz-kompatibel bewiesen in Köniz.",
+        "label": "Nutzt vorhandene Elemente mit minimalem baulichen Eingriff und geringer Wartung",
         "_id": "72a3R23UO3"
       },
       {
-        "label": "Für alle Generationen",
-        "description": "Von 6 bis 96 – RubikONE spricht alle an. Fünf Lerndimensionen machen Bewegung für alle zugänglich.",
+        "label": "Outdoor, umsonst, 24/7 zugänglich",
         "_id": "jeS3c6WgBW"
       },
       {
-        "label": "Wissenschaftlich evaluiert",
-        "description": "Im Rahmen des BASPO lab7x1 über zwei Jahre begleitet und durch Affective Advisory evaluiert.",
+        "label": "Individuell an die Umgebung und Möglichkeiten angepasst",
         "_id": "CqdrdUlrhm"
       },
       {
-        "label": "Wartungsarm",
-        "description": "8 Monate Betrieb in Köniz: CHF 0 Wartungskosten, 0 Vandalismusfälle.",
+        "label": "Für alle Generationen geeignet, mit kreativen Variationen und Zusatzaufgaben",
         "_id": "Ovfkysh1xh"
       },
       {
-        "label": "Modulare Umsetzung",
-        "description": "Sie entscheiden, welche Leistungen Sie selbst übernehmen und wo Sie unsere Expertise nutzen.",
+        "label": "Intuitiv verständliche Signaletik",
         "_id": "18f0YajvKX"
       }
     ]
@@ -1930,9 +1924,39 @@
     ]
   },
   "KONZEPT_POSTEN_SLIDER": {
-    "tagline": "Beispiele aus Köniz",
+    "tagline": "Ein Postenbeispiel aus Köniz",
     "headline": "Natürliche Bewegungen, klar erklärt.",
-    "description": "Jeder Posten zeigt Übungen mit Illustrationen und zusätzlichen Challenges für ganzheitliches Lernen."
+    "description": "Jeder Posten zeigt Übungen mit Illustrationen und zusätzlichen Challenges für ganzheitliches Lernen.",
+    "slides": [
+      {
+        "label": "Neutral",
+        "image": "/images/konzept/postenschild-perspektive-neutral.jpg",
+        "imageAlt": "Ein RubikONE Postenschild",
+        "body": "<p><strong>Postenschild Inhalt:</strong></p><ul class=\"list-disc pl-6 mt-2 space-y-1\"><li>Information: Postennummer und Qr Code</li><li>Visuelle Darstellung der Übungen</li><li>Physisch: zwei Übungen und eine Team-Challenge</li><li>Sensorisch: Propriozeption herausfordern</li><li>Emotional: Einladung Spass zu haben</li><li>Kognitiv: Achtsamkeit</li></ul><p class=\"mt-4 text-accent-orange\">Betrachte das Schild aus einer anderen Perspektive!</p>",
+        "_id": "posten-slide-neutral"
+      },
+      {
+        "label": "Designer",
+        "image": "/images/konzept/postenschild-perspektive-designer.jpg",
+        "imageAlt": "Perspektive Designer",
+        "body": "<p><strong>Was sieht ein Designer?:</strong></p><ul class=\"list-disc pl-6 mt-2 space-y-1\"><li>Farben und Schriften</li><li>Vektoren, Formen, Weissraum</li><li>Abstände und Komposition</li><li>Lesefluss und Hierarchien</li></ul><p class=\"mt-4\">Als Designer sieht man nicht nur die Übungen, sondern z.B. auch wie diese Datei erstellt wurde und wie sie auf eine dritte Person wirkt.</p>",
+        "_id": "posten-slide-designer"
+      },
+      {
+        "label": "Kind",
+        "image": "/images/konzept/postenschild-perspektive-kind.jpg",
+        "imageAlt": "Perspektive Kind",
+        "body": "<p><strong>Was sieht ein Kind?:</strong></p><ul class=\"list-disc pl-6 mt-2 space-y-1\"><li>Farben</li><li>Figuren und Smiley</li><li>Achtet schon längst nicht mehr aufs Schild</li><li>sondern auf die Umgebung</li><li>Farben auf dem Boden</li></ul><p class=\"mt-4\">Ein Kind liest nicht den Text durch, sondern achtet viel mehr auf visuelle Reize.</p><p class=\"mt-4\">Die Formen und Farben von RubikONE sind eine <strong>Einladung mit der Umgebung zu interagieren</strong>, ob mit oder ohne Übungsvorschlägen.</p>",
+        "_id": "posten-slide-kind"
+      },
+      {
+        "label": "Handwerker",
+        "image": "/images/konzept/postenschild-perspektive-handwerker.jpg",
+        "imageAlt": "Perspektive Handwerker",
+        "body": "<p><strong>Was sieht ein Handwerker?:</strong></p><ul class=\"list-disc pl-6 mt-2 space-y-1\"><li>Grössen und Abstände</li><li>Material und Qualität vom Schild</li><li>Befestigung am Boden</li><li>Wiederstandsfähigkeit</li><li>Arbeitsaufwand</li></ul><p class=\"mt-4\">Ein Handwerker achtet auf Details der Umsetzung und bewertet oft automatisch Faktoren wie Qualität und Zeitaufwand.</p><p class=\"mt-4 text-accent-orange\"><strong>Welche individuelle Perspektive bringst du mit?</strong></p>",
+        "_id": "posten-slide-handwerker"
+      }
+    ]
   },
   "KONZEPT_LERNDIMENSIONEN": {
     "tagline": "TRUST Education",
@@ -1960,7 +1984,7 @@
         "_id": "lerndim-img-4"
       }
     ],
-    "examplesCaption": "Eine Linie auf dem Boden bietet zahlreiche Möglichkeiten. Welche Lerndimensionen kannst du hier erkennen?",
+    "examplesCaption": "Eine Linie auf dem Boden bietet zahlreiche Möglichkeiten.\nWelche Lerndimensionen kannst du hier erkennen?",
     "dimensions": [
       {
         "id": "motorisch",
@@ -2033,16 +2057,8 @@
     "image": "/images/konzept/wegweiser.jpg"
   },
   "KONZEPT_CTA": {
-    "headline": "Überzeugt? Erleben Sie es selbst.",
-    "description": "In Köniz können Sie RubikONE live erleben. Oder buchen Sie einen Impulsworkshop für Ihre Gemeinde.",
-    "ctaPrimary": {
-      "label": "Entdecke RubikONE",
-      "href": "/koeniz"
-    },
-    "ctaSecondary": {
-      "label": "Impulsworkshop anfragen",
-      "href": "/impulsworkshop"
-    }
+    "backgroundImage": "/images/konzept/hintergrund.jpg",
+    "imageAlt": "RubikONE im öffentlichen Raum"
   },
   "RAUMGESTALTUNG_HERO": {
     "title": "Entdecke das Potential deiner Umgebung",

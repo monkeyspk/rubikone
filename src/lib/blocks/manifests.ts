@@ -159,14 +159,12 @@ m({
   schema: blockObject({
     headline: z.string(),
     subheadline: z.string(),
-    features: z.array(
-      withId({ label: z.string(), description: z.string() })
-    ),
+    features: z.array(withId({ label: z.string() })),
   }),
   fields: [
     text("headline"),
     text("subheadline"),
-    list("features", [text("label"), text("description")]),
+    list("features", [text("label")]),
   ],
 });
 
@@ -1035,8 +1033,28 @@ m({
     tagline: z.string(),
     headline: z.string(),
     description: z.string(),
+    slides: z
+      .array(
+        withId({
+          label: z.string(),
+          image: z.string(),
+          imageAlt: z.string().optional(),
+          body: z.string(),
+        })
+      )
+      .optional(),
   }),
-  fields: [text("tagline"), text("headline"), text("description")],
+  fields: [
+    text("tagline"),
+    text("headline"),
+    text("description"),
+    list("slides", [
+      text("label"),
+      image("image"),
+      text("imageAlt", { required: false }),
+      richtext("body"),
+    ], { required: false }),
+  ],
 });
 
 m({
@@ -1118,8 +1136,11 @@ const simpleCtaFields = [
 m({
   id: "KONZEPT_CTA",
   label: "Konzept CTA",
-  schema: simpleCtaBlock,
-  fields: simpleCtaFields,
+  schema: blockObject({
+    backgroundImage: z.string(),
+    imageAlt: z.string().optional(),
+  }),
+  fields: [image("backgroundImage"), text("imageAlt", { required: false })],
 });
 
 /* -------------------------- RAUMGESTALTUNG -------------------------------- */

@@ -42,16 +42,8 @@ export const DIFFICULTY_LEVELS = {
   red: { label: "Schwer", color: "#EF4444" },
 } as const;
 
-// RubikONE Vorteile (icons bleiben hier, Texte aus JSON)
-const COMPARISON_ICONS = ["map", "construction", "users", "science", "tools", "puzzle"] as const;
-export const COMPARISON_TABLE = {
-  headline: content.COMPARISON_TABLE.headline,
-  subheadline: content.COMPARISON_TABLE.subheadline,
-  features: content.COMPARISON_TABLE.features.map((f, i) => ({
-    ...f,
-    icon: COMPARISON_ICONS[i],
-  })),
-} as const;
+// RubikONE Vorteile
+export const COMPARISON_TABLE = content.COMPARISON_TABLE;
 
 // Testimonials (logos bleiben hier)
 const TESTIMONIAL_LOGOS = ["/images/logos/baspo.gif", "/images/logos/koeniz.jpg"] as const;
