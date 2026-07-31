@@ -19,7 +19,7 @@ function ComparisonFeatureCard({ feature, index }: { feature: ComparisonFeature;
     <StaggerItem>
       <div className="bg-white rounded-2xl p-6 shadow-apple h-full" {...itemEdit}>
         {feature.label && (
-          <p className="text-body-lg font-medium text-[var(--color-apple-dark)]" {...labelEdit}>
+          <p className="text-body-lg font-normal text-[var(--color-apple-dark)]" {...labelEdit}>
             {feature.label}
           </p>
         )}

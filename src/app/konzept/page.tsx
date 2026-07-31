@@ -253,14 +253,14 @@ export default function KonzeptPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ ...appleTransition, delay: 0.1 + i * 0.05 }}
-                  className="relative h-64 lg:h-80 rounded-2xl overflow-hidden bg-[var(--color-apple-gray-100)]"
+                  className="relative aspect-[800/1062] rounded-2xl overflow-hidden bg-[var(--color-apple-gray-100)]"
                   data-edit-path={`KONZEPT_LERNDIMENSIONEN.examples.${i}`}
                 >
                   <Image
                     src={ex.src}
                     alt={ex.alt || `Lerndimension Beispiel ${i + 1}`}
                     fill
-                    className="object-contain"
+                    className="object-cover"
                     sizes="(max-width: 768px) 50vw, 25vw"
                   />
                 </motion.div>
